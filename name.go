@@ -2,7 +2,7 @@ package english
 
 import "strings"
 
-type Name []Word
+type Name []string
 
 func (n Name) String() string {
 	s := strings.Builder{}
@@ -10,7 +10,7 @@ func (n Name) String() string {
 		if i > 0 {
 			s.WriteString(" ")
 		}
-		s.WriteString(word.String)
+		s.WriteString(word)
 	}
 	return s.String()
 }
@@ -18,7 +18,7 @@ func (n Name) String() string {
 func (n Name) PascalCase() string {
 	s := strings.Builder{}
 	for _, w := range n {
-		s.WriteString(w.Title())
+		s.WriteString(strings.Title(w))
 	}
 	return s.String()
 }
@@ -27,9 +27,9 @@ func (n Name) CamelCase() string {
 	s := strings.Builder{}
 	for i, w := range n {
 		if i == 0 {
-			s.WriteString(w.Lower())
+			s.WriteString(strings.ToLower(w))
 		} else {
-			s.WriteString(w.Title())
+			s.WriteString(strings.Title(w))
 		}
 	}
 	return s.String()
@@ -41,7 +41,7 @@ func (n Name) SnakeCase() string {
 		if i > 0 {
 			s.WriteString("_")
 		}
-		s.WriteString(w.Lower())
+		s.WriteString(strings.ToLower(w))
 	}
 	return s.String()
 }
@@ -52,7 +52,7 @@ func (n Name) KebabCase() string {
 		if i > 0 {
 			s.WriteString("-")
 		}
-		s.WriteString(w.Lower())
+		s.WriteString(strings.ToLower(w))
 	}
 	return s.String()
 }
@@ -63,7 +63,7 @@ func (n Name) ScreamingSnakeCase() string {
 		if i > 0 {
 			s.WriteString("_")
 		}
-		s.WriteString(w.Upper())
+		s.WriteString(strings.ToUpper(w))
 	}
 	return s.String()
 }
