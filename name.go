@@ -1,69 +1,49 @@
 package english
 
-import "strings"
+import (
+	"encoding/json"
+	"io"
+	"net/http"
+)
 
 type Name []string
 
-func (n Name) String() string {
-	s := strings.Builder{}
-	for i, word := range n {
-		if i > 0 {
-			s.WriteString(" ")
+func (d *Name) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		json.NewEncoder(w).Encode(d)
+		return
+	}
+	if r.Method == http.MethodPost {
+		b, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
-		s.WriteString(word)
-	}
-	return s.String()
-}
-
-func (n Name) PascalCase() string {
-	s := strings.Builder{}
-	for _, w := range n {
-		s.WriteString(strings.Title(w))
-	}
-	return s.String()
-}
-
-func (n Name) CamelCase() string {
-	s := strings.Builder{}
-	for i, w := range n {
-		if i == 0 {
-			s.WriteString(strings.ToLower(w))
-		} else {
-			s.WriteString(strings.Title(w))
+		var in struct {
+			Method string
 		}
-	}
-	return s.String()
-}
-
-func (n Name) SnakeCase() string {
-	s := strings.Builder{}
-	for i, w := range n {
-		if i > 0 {
-			s.WriteString("_")
+		err = json.Unmarshal(b, &in)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
-		s.WriteString(strings.ToLower(w))
-	}
-	return s.String()
-}
-
-func (n Name) KebabCase() string {
-	s := strings.Builder{}
-	for i, w := range n {
-		if i > 0 {
-			s.WriteString("-")
+		switch in.Method {
+		case "String":
+			var in struct {
+				Args struct {
+				}
+			}
+			err = json.Unmarshal(b, &in)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+			}
+			// out1 := d.String()
+			var out struct {
+				Out1 string
+			}
+			// out.Out1 = out1
+			json.NewEncoder(w).Encode(out)
+		default:
+			http.Error(w, "unknown method", http.StatusBadRequest)
 		}
-		s.WriteString(strings.ToLower(w))
+		return
 	}
-	return s.String()
-}
-
-func (n Name) ScreamingSnakeCase() string {
-	s := strings.Builder{}
-	for i, w := range n {
-		if i > 0 {
-			s.WriteString("_")
-		}
-		s.WriteString(strings.ToUpper(w))
-	}
-	return s.String()
 }
