@@ -2,8 +2,8 @@ package english
 
 import "unicode"
 
-// ValidateSnakeCase returns an error if the string is not valid snake_case.
-func ValidateSnakeCase(s string) error {
+// validateSnakeCase returns an error if the string is not valid snake_case.
+func validateSnakeCase(s string) error {
 	if s == "" {
 		return ErrEmptyString
 	}

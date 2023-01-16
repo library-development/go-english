@@ -5,8 +5,8 @@ import (
 	"unicode"
 )
 
-// ValidateKebabCase returns an error if the string is not in kebab case.
-func ValidateKebabCase(s string) error {
+// validateKebabCase returns an error if the string is not in kebab case.
+func validateKebabCase(s string) error {
 	if s == "" {
 		return ErrEmptyString
 	}

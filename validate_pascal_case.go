@@ -4,8 +4,8 @@ import (
 	"unicode"
 )
 
-// ValidatePascalCase returns an error if the string is not in PascalCase.
-func ValidatePascalCase(s string) error {
+// validatePascalCase returns an error if the string is not in PascalCase.
+func validatePascalCase(s string) error {
 	if s == "" {
 		return ErrEmptyString
 	}

@@ -4,8 +4,8 @@ import (
 	"unicode"
 )
 
-// ValidateCamelCase returns an error if the string is not in camelCase.
-func ValidateCamelCase(s string) error {
+// validateCamelCase returns an error if the string is not in camelCase.
+func validateCamelCase(s string) error {
 	if s == "" {
 		return ErrEmptyString
 	}
