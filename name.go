@@ -1,9 +1,45 @@
 package english
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+)
 
 // Name represents an English-language name, meaning a list of words.
 type Name []Word
+
+// AppendRune appends a rune to the end of the last word in the name.
+func (n Name) AppendRune(r rune) {
+	r = unicode.ToLower(r)
+	if len(n) == 0 {
+		n = []Word{Word(string(r))}
+		return
+	}
+	n[len(n)-1] += Word(string(r))
+}
+
+// AppendWord appends a word to the end of the name.
+func (n Name) AppendWord(s string) {
+	n = append(n, Word(s))
+}
+
+func (n Name) Equal(other Name) bool {
+	if n == nil && other == nil {
+		return true
+	}
+	if n == nil || other == nil {
+		return false
+	}
+	if len(n) != len(other) {
+		return false
+	}
+	for i := range n {
+		if n[i] != other[i] {
+			return false
+		}
+	}
+	return true
+}
 
 // String returns the string representation of the name.
 func (n Name) String() string {
